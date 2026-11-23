@@ -1,0 +1,364 @@
+/* ==========================================================
+   WEB PRIBADI - Tema "Sunrise of Banyuwangi" (versi 2)
+   Daftar isi:
+   1 Variabel & mode gelap   2 Dasar          3 Sidebar + menu
+   4 Tombol                  5 Hero (Home)    6 Judul halaman
+   7 Panel                   8 Timeline       9 Jadwal kuliah
+   10 Skill                  11 Footer        12 Animasi
+   13 Responsif              14 Cetak
+   ========================================================== */
+
+/* ---------- 1. Variabel ---------- */
+:root{
+  color-scheme:light dark;
+
+  /* warna merek (sama di mode terang & gelap) */
+  --ocean:#0b3954;
+  --sea:#087e8b;
+  --sun:#ff8a3d;
+  --gold:#ffc857;
+
+  /* warna yang berubah menurut mode */
+  --bg:#fff8ee;
+  --glow:rgba(255,200,87,.45);
+  --card:#ffffff;
+  --head:#0b3954;           /* warna judul */
+  --ink:#10283a;            /* warna teks */
+  --muted:#53697a;
+  --line:rgba(11,57,84,.12);
+  --zebra:#fff7ec;
+  --hov:#ffe9cf;
+  --track:#e6eef1;
+  --chip-bg:#e4eef3;
+  --chip-ink:#0b3954;
+  --tag-bg:rgba(255,138,61,.16);
+  --tag-ink:#9a4308;
+  --tosca-bg:rgba(8,126,139,.12);
+  --shadow:0 12px 34px rgba(11,57,84,.10);
+
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --body:"Plus Jakarta Sans","Segoe UI",Helvetica,Arial,sans-serif;
+  --side:290px;
+  --radius:24px;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#0a1b28;--glow:rgba(255,138,61,.16);--card:#112c3f;--head:#ffffff;--ink:#e6f0f5;--muted:#9fb7c6;
+    --line:rgba(255,255,255,.12);--zebra:#14344a;--hov:#1d4a66;--track:#1d3b50;
+    --chip-bg:#1d4560;--chip-ink:#d7eef7;--tag-bg:rgba(255,138,61,.2);--tag-ink:#ffb27a;--tosca-bg:rgba(8,126,139,.3);
+    --shadow:0 12px 34px rgba(0,0,0,.35);
+  }
+}
+
+/* ---------- 2. Dasar ---------- */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scrollbar-color:var(--sea) transparent}
+body{
+  font-family:var(--body);font-size:1.02rem;line-height:1.75;color:var(--ink);
+  background:radial-gradient(circle at 105% -5%,var(--glow),transparent 40%),var(--bg);
+  background-attachment:fixed;min-height:100vh;
+  display:grid;grid-template-columns:var(--side) 1fr;grid-template-rows:1fr auto;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.12;letter-spacing:-.015em;text-wrap:balance}
+p{max-width:66ch;margin-bottom:10px;text-wrap:pretty}
+img{max-width:100%}
+::selection{background:var(--sun);color:#fff}
+a:focus-visible{outline:3px solid var(--sun);outline-offset:3px;border-radius:12px}
+
+/* ---------- 3. Sidebar + tombol menu ---------- */
+.top{
+  grid-column:1;grid-row:1 / span 2;position:sticky;top:0;height:100vh;overflow:hidden;
+  display:flex;flex-direction:column;gap:28px;padding:36px 24px;color:#fff;
+  background:
+    radial-gradient(circle at 20% 0%,rgba(255,255,255,.14),transparent 45%),
+    linear-gradient(180deg,var(--ocean) 0%,#0d5a78 55%,var(--sea) 100%);
+}
+.top::before{ /* matahari terbit */
+  content:"";position:absolute;left:50%;bottom:-150px;width:340px;height:340px;transform:translateX(-50%);border-radius:50%;
+  background:radial-gradient(circle,var(--gold) 0 34%,var(--sun) 35% 62%,rgba(255,138,61,.28) 63% 100%);
+  box-shadow:0 0 90px 30px rgba(255,138,61,.35);
+}
+.top::after{ /* identitas singkat */
+  content:"Teknologi Rekayasa Perangkat Lunak\A Banyuwangi";white-space:pre;position:relative;z-index:1;
+  margin-top:auto;margin-bottom:100px;font-size:.86rem;line-height:1.55;color:#d4ebf2;
+}
+.brand{
+  position:relative;z-index:1;align-self:flex-start;display:grid;place-items:center;width:68px;height:68px;border-radius:50%;
+  font:700 1.6rem var(--display);color:var(--ocean);text-decoration:none;background:var(--gold);
+  box-shadow:0 0 0 6px rgba(255,200,87,.25),0 10px 24px rgba(0,0,0,.25);
+  transition:transform .3s cubic-bezier(.3,1.6,.5,1);
+}
+.brand span{color:var(--sun)}
+.brand:hover{transform:rotate(-10deg) scale(1.08)}
+
+nav{position:relative;z-index:1;display:flex;flex-direction:column;gap:8px}
+nav a{
+  display:flex;align-items:center;gap:12px;padding:12px 18px;border-radius:14px;
+  font:600 .96rem var(--body);color:#fff;text-decoration:none;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(4px);
+  transition:transform .18s,background .18s,color .18s,box-shadow .18s;
+}
+nav a::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--gold);flex:none;opacity:.7;transition:transform .18s}
+nav a:hover{background:var(--sun);color:var(--ocean);border-color:var(--sun);transform:translateX(6px);box-shadow:0 10px 22px rgba(0,0,0,.28)}
+nav a:hover::before{background:var(--ocean);opacity:1;transform:scale(1.3)}
+nav a:active{transform:translateX(6px) scale(.97)}
+nav a.aktif{background:#fff;color:var(--ocean);border-color:#fff;box-shadow:0 10px 22px rgba(0,0,0,.28)}
+nav a.aktif::before{background:var(--sun);opacity:1}
+
+/* ---------- 4. Tombol ---------- */
+.btn{
+  position:relative;overflow:hidden;display:inline-block;padding:13px 28px;border-radius:999px;
+  font:700 .98rem var(--body);text-decoration:none;color:var(--ocean);
+  background:linear-gradient(135deg,var(--gold),var(--sun));box-shadow:0 8px 20px rgba(255,138,61,.38);
+  transition:transform .18s,box-shadow .18s;
+}
+.btn::after{ /* kilau saat hover */
+  content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;transform:skewX(-20deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transition:left .5s;
+}
+.btn:hover{transform:translateY(-3px);box-shadow:0 14px 28px rgba(255,138,61,.5)}
+.btn:hover::after{left:130%}
+.btn:active{transform:translateY(1px) scale(.97)}
+.btn.ungu{background:var(--ocean);color:#fff;box-shadow:0 8px 20px rgba(11,57,84,.35)}
+.btn.putih{background:transparent;color:var(--head);box-shadow:inset 0 0 0 2px var(--head)}
+.btn.putih:hover{background:var(--head);color:var(--bg)}
+
+main{grid-column:2;width:100%;max-width:1000px;justify-self:center;padding:56px 52px 40px}
+
+/* ---------- 5. Hero (Home) ---------- */
+.hero{display:grid;grid-template-columns:1.15fr 1fr;gap:56px;align-items:center;padding:6px 0 54px}
+.sapa{font:700 1.05rem var(--body);color:var(--sun);margin-bottom:6px}
+.hero h1{font-size:clamp(2.6rem,5.2vw,4.5rem);font-weight:700;margin-bottom:20px;color:var(--head)}
+.lead{font-size:1.1rem;color:var(--muted);max-width:48ch;margin-bottom:28px}
+.aksi{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:30px}
+.chips{display:flex;flex-wrap:wrap;gap:9px;list-style:none}
+.chips li{
+  font:600 .88rem var(--body);color:var(--chip-ink);padding:5px 15px;border-radius:999px;
+  background:var(--tosca-bg);border:1px solid rgba(8,126,139,.3);transition:transform .18s;
+}
+.chips li:nth-child(even){background:var(--tag-bg);border-color:rgba(255,138,61,.4)}
+.chips li:hover{transform:translateY(-3px)}
+
+.hero-foto{position:relative;justify-self:center;width:min(100%,340px)}
+.hero-foto::before{
+  content:"";position:absolute;width:64%;aspect-ratio:1;right:-24%;top:-9%;border-radius:50%;z-index:-1;
+  background:radial-gradient(circle,var(--gold) 0 45%,var(--sun) 46%);box-shadow:0 0 60px rgba(255,138,61,.4);
+}
+.hero-foto::after{
+  content:"";position:absolute;width:50%;height:34px;left:-18%;bottom:5%;z-index:-1;border-radius:999px;
+  background:repeating-linear-gradient(90deg,var(--sea) 0 14px,transparent 14px 28px);opacity:.4;
+}
+.foto{
+  display:block;width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--sea);
+  border-radius:999px 999px 28px 28px;border:6px solid var(--card);box-shadow:0 28px 54px rgba(11,57,84,.3);
+  transition:transform .4s cubic-bezier(.3,1.4,.5,1);
+}
+.hero-foto:hover .foto{transform:scale(1.025)}
+.stiker{
+  position:absolute;font:700 .85rem var(--body);color:var(--head);background:var(--card);white-space:nowrap;
+  padding:6px 14px 6px 12px;border-radius:999px;box-shadow:0 10px 24px rgba(11,57,84,.22);
+  animation:ambang 5s ease-in-out infinite;
+}
+.stiker::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:8px;background:var(--sun)}
+.s1{top:20%;left:-34px}
+.s2{bottom:18%;left:-44px;animation-delay:-1.6s}.s2::before{background:var(--sea)}
+.s3{bottom:34%;right:-30px;animation-delay:-3.2s}.s3::before{background:var(--gold)}
+
+/* ---------- 6. Judul halaman dalam ---------- */
+.judul{padding:0 0 34px}
+.judul h1{font-size:clamp(2.4rem,4.8vw,3.7rem);font-weight:700;color:var(--head)}
+.judul h1::after{content:"";display:block;width:90px;height:7px;border-radius:7px;margin-top:14px;background:linear-gradient(90deg,var(--sun),var(--gold))}
+.judul p{color:var(--muted);margin-top:16px;font-size:1.08rem}
+
+/* ---------- 7. Panel ---------- */
+.panel{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:38px;margin-bottom:34px;transition:transform .25s,box-shadow .25s;
+}
+.panel:hover{transform:translateY(-3px);box-shadow:0 18px 44px rgba(11,57,84,.16)}
+.panel h2{font-size:1.55rem;color:var(--head);margin-bottom:18px;display:flex;align-items:center;gap:12px}
+.panel h2::before{content:"";width:14px;height:14px;border-radius:50%;flex:none;background:var(--sun);box-shadow:0 0 0 5px rgba(255,138,61,.22)}
+.panel h2:not(:first-child){margin-top:42px}
+.panel p{color:var(--muted)}
+ul.daftar{margin:6px 0 0 22px}
+ul.daftar li{margin-bottom:8px}
+ul.daftar li::marker{color:var(--sun)}
+
+dl{display:grid;grid-template-columns:170px 1fr}
+dt,dd{padding:13px 0;border-bottom:1px solid var(--line)}
+dt{font-weight:700;color:var(--sea)}
+dd{transition:padding .2s}
+dl dt:last-of-type,dl dd:last-of-type{border-bottom:0}
+
+/* ---------- 8. Timeline ---------- */
+.timeline{border-left:3px solid transparent;border-image:linear-gradient(180deg,var(--sea),var(--sun)) 1;margin-left:7px}
+.item{position:relative;padding:0 0 28px 32px}
+.item:last-child{padding-bottom:0}
+.item::before{
+  content:"";position:absolute;left:-10px;top:6px;width:17px;height:17px;border-radius:50%;background:var(--sun);
+  box-shadow:0 0 0 5px var(--card),0 0 0 7px rgba(255,138,61,.5);transition:transform .2s;
+}
+.item:nth-child(even)::before{background:var(--sea);box-shadow:0 0 0 5px var(--card),0 0 0 7px rgba(8,126,139,.5)}
+.item:hover::before{transform:scale(1.3)}
+.tahun{display:inline-block;font:700 .82rem var(--body);color:var(--tag-ink);background:var(--tag-bg);border-radius:999px;padding:2px 13px}
+.item strong{display:block;font:600 1.22rem var(--display);color:var(--head);margin-top:6px}
+.item .ket{color:var(--muted)}
+
+/* ---------- 9. Jadwal kuliah (tabel biasa) ---------- */
+.scroll{overflow-x:auto}
+table.jadwal{
+  --luar:var(--ocean);--dalam:#a9bcc8;--tebal:var(--ocean);
+  width:100%;min-width:700px;table-layout:fixed;border-collapse:collapse;border:2px solid var(--luar);
+}
+table.jadwal caption{caption-side:top;text-align:left;font:600 1.1rem var(--display);color:var(--head);padding-bottom:12px}
+
+/* lebar kolom */
+table.jadwal thead th:nth-child(1){width:13%}
+table.jadwal thead th:nth-child(2){width:19%}
+table.jadwal thead th:nth-child(3){width:40%}
+table.jadwal thead th:nth-child(4){width:9%}
+table.jadwal thead th:nth-child(5){width:19%}
+
+/* garis sel */
+table.jadwal th,table.jadwal td{border:1px solid var(--dalam);padding:12px 14px;vertical-align:middle;line-height:1.45}
+table.jadwal thead th{background:var(--ocean);color:#fff;border-color:var(--ocean);font:700 .92rem var(--body);text-align:center}
+/* PEMBATAS ANTAR HARI (garis tebal) - dibuat dari tiga sisi supaya pasti tampil */
+table.jadwal tbody{border-bottom:4px solid var(--tebal)}
+table.jadwal tbody tr:last-child td{border-bottom:4px solid var(--tebal)}
+table.jadwal tbody + tbody tr:first-child td{border-top:4px solid var(--tebal)}
+table.jadwal tfoot td{border-top:4px solid var(--tebal)}
+
+/* tata letak isi sel */
+table.jadwal td.hari{text-align:center;font:700 1.05rem var(--display);background:var(--gold);color:var(--ocean);border-right:1px solid var(--tebal);border-bottom:4px solid var(--tebal)}
+table.jadwal td.jam,table.jadwal td.sks{text-align:center;white-space:nowrap}
+table.jadwal td.mk,table.jadwal td.ruang{text-align:left}
+table.jadwal td{font-variant-numeric:tabular-nums}
+table.jadwal tbody + tbody td.hari{border-top:4px solid var(--tebal)}
+
+/* warna baris */
+table.jadwal tbody tr:nth-child(even) td:not(.hari){background:var(--zebra)}
+table.jadwal tbody tr:hover td:not(.hari){background:var(--hov)}
+
+table.jadwal tfoot td{background:var(--ocean);color:#fff;font-weight:700;border-color:var(--ocean)}
+table.jadwal tfoot td.kanan{text-align:right}
+table.jadwal tfoot td:nth-child(2){text-align:center}
+
+@media(prefers-color-scheme:dark){
+  table.jadwal{--luar:#6fa3bf;--dalam:#3d6b85;--tebal:#6fa3bf}
+  table.jadwal thead th,table.jadwal tfoot td{background:#0d5a78;border-color:#3d6b85}
+}
+
+/* ---------- 10. Skill ---------- */
+.skill{margin:22px 0}
+.skill b{font-weight:700}
+.skill em{float:right;font-style:normal;font-weight:700;color:var(--sea)}
+.bar{height:13px;border-radius:13px;background:var(--track);overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;border-radius:13px;background:linear-gradient(90deg,var(--sea),var(--sun));
+  transform-origin:left;animation:isi 1s .2s cubic-bezier(.3,.9,.3,1) both}
+.skill:nth-of-type(2) .bar i{animation-delay:.32s}
+.skill:nth-of-type(3) .bar i{animation-delay:.44s}
+.skill:nth-of-type(4) .bar i{animation-delay:.56s}
+.kontak-btn{display:flex;flex-wrap:wrap;gap:16px;margin-top:18px}
+
+/* ---------- 11. Footer ---------- */
+footer{grid-column:2;text-align:center;color:var(--muted);font-size:.9rem;padding:24px 20px 32px;border-top:1px solid var(--line)}
+
+/* ---------- 12. Animasi ---------- */
+@keyframes naik{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes isi{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes ambang{0%,100%{translate:0 0}50%{translate:0 -7px}}
+
+.hero .sapa,.hero h1,.hero .lead,.hero .aksi,.hero .chips,.hero .hero-foto{animation:naik .75s ease-out both}
+.hero h1{animation-delay:.08s}.hero .lead{animation-delay:.16s}.hero .aksi{animation-delay:.24s}
+.hero .chips{animation-delay:.32s}.hero .hero-foto{animation-delay:.2s}
+.judul{animation:naik .6s ease-out both}
+
+/* panel muncul halus saat di-scroll (browser yang mendukung) */
+@supports (animation-timeline:view()){
+  .panel{animation:naik linear both;animation-timeline:view();animation-range:entry 0% entry 35%}
+}
+
+/* ---------- 13. Responsif ---------- */
+@media(max-width:960px){
+  body{display:block}
+  .top{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;gap:16px;padding:18px 20px}
+  .top::before,.top::after{display:none}
+  .brand{width:52px;height:52px;font-size:1.25rem}
+  nav{flex-direction:row;flex-wrap:wrap;gap:8px}
+  nav a{padding:8px 15px;font-size:.9rem}
+  nav a::before{display:none}
+  nav a:hover{transform:translateY(-2px)}
+  main{padding:34px 20px 20px}
+  .hero{grid-template-columns:1fr;gap:66px}
+  .hero-foto{width:min(78%,320px)}
+}
+@media(max-width:560px){
+  body{font-size:1rem}
+  dl{grid-template-columns:1fr}
+  dt{border-bottom:0;padding-bottom:0}
+  .panel{padding:24px}
+  .panel:hover{transform:none}
+  .s1{left:-14px}.s2{left:-14px}.s3{right:-10px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+
+/* ---------- 14. Cetak ---------- */
+@media print{
+  .top,.aksi,.kontak-btn{display:none}
+  body{display:block;background:#fff;color:#000}
+  .panel,.scroll{box-shadow:none;animation:none}
+}
+
+/* ---------- Kartu profil (Home) ---------- */
+dl.kartu{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+dl.kartu > div{
+  position:relative;padding:16px 18px 16px 22px;border-radius:16px;
+  background:color-mix(in srgb,var(--sea) 7%,var(--card));border:1px solid var(--line);
+  transition:transform .2s,box-shadow .2s;
+}
+dl.kartu > div::before{ /* garis aksen di kiri */
+  content:"";position:absolute;left:0;top:14px;bottom:14px;width:5px;border-radius:0 5px 5px 0;background:var(--sea);
+}
+dl.kartu > div:nth-child(even)::before{background:var(--sun)}
+dl.kartu > div:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+dl.kartu .wide{grid-column:1 / -1}
+dl.kartu dt,dl.kartu dd{padding:0;border:0}
+dl.kartu dt{font:700 .78rem var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+dl.kartu dd{font-weight:600;color:var(--head);line-height:1.45}
+dl.kartu .nama dd{font:700 clamp(1.4rem,3vw,1.9rem) var(--display)}
+dl.kartu .cita{background:linear-gradient(135deg,rgba(255,200,87,.35),rgba(255,138,61,.22));border-color:rgba(255,138,61,.4)}
+dl.kartu .cita::before{background:var(--sun)}
+dl.kartu .cita dd{font:700 1.2rem var(--display)}
+.tag{display:inline-block;margin:2px 6px 2px 0;font:600 .86rem var(--body);color:var(--chip-ink);
+  background:var(--tosca-bg);border:1px solid rgba(8,126,139,.3);border-radius:999px;padding:3px 14px}
+.tag:nth-child(even){background:var(--tag-bg);border-color:rgba(255,138,61,.4)}
+@media(max-width:620px){dl.kartu{grid-template-columns:1fr}}
+
+/* ---------- Logo gambar di sidebar (bingkai bulat) ---------- */
+.brand{
+  position:relative;z-index:1;align-self:flex-start;flex:none;
+  display:block;width:80px;height:80px;min-width:80px;min-height:80px;aspect-ratio:1/1;padding:0;border-radius:50%;overflow:hidden;
+  background:#fff;                                   /* latar putih bila logo transparan */
+  border:4px solid var(--gold);                      /* bingkai emas */
+  box-shadow:0 0 0 6px rgba(255,200,87,.25),         /* cincin luar */
+             0 12px 26px rgba(0,0,0,.35);            /* bayangan */
+  transition:transform .3s cubic-bezier(.3,1.6,.5,1),box-shadow .3s;
+}
+.brand img{
+  display:block;width:100%;height:100%;max-width:none;
+  object-fit:cover;object-position:center 18%;       /* mengisi bulatan; fokus ke bagian atas (wajah) */
+  border-radius:50%;
+}
+.brand:hover{
+  transform:rotate(-6deg) scale(1.07);
+  box-shadow:0 0 0 6px rgba(255,138,61,.45),0 16px 30px rgba(0,0,0,.4);
+}
+.brand:focus-visible{outline:3px solid var(--sun);outline-offset:6px}
+
+@media(max-width:960px){
+  .brand{width:56px;height:56px;min-width:56px;min-height:56px;border-width:3px;box-shadow:0 0 0 4px rgba(255,200,87,.25),0 8px 18px rgba(0,0,0,.3)}
+}
